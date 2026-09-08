@@ -1,0 +1,19 @@
+model WritingSession {
+  id String @id @default(cuid())
+
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  chapterId String
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+
+  wordsWritten Int @default(0)
+
+  createdAt DateTime @default(now())
+
+  @@index([documentId, startedAt])
+  @@index([chapterId, startedAt])
+}
