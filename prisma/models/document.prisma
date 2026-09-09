@@ -1,0 +1,17 @@
+model Document {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  summary  String?
+  note     String?
+  language String?
+  title    String
+
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  writingSessions WritingSession[]
+  chapters        Chapter[]
+
+  @@index([userId])
+}

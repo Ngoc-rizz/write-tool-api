@@ -15,7 +15,10 @@ const config: Config = {
   rootDir: '.',
   testRegex: '.*\\.spec\\.ts$',
   transform: {
-    '^.+\\.(t|j)s$': 'ts-jest',
+    '^.+\\.(t|j)s$': ['ts-jest', {
+      tsconfig: 'tsconfig.spec.json',
+      isolatedModules: true,
+    }],
   },
   moduleNameMapper: pathsToModuleNameMapper(paths, { prefix: '<rootDir>/' }),
   collectCoverageFrom: [
@@ -23,6 +26,7 @@ const config: Config = {
     'libs/**/*.(t|j)s',
     'apps/**/*.(t|j)s',
   ],
+  transformIgnorePatterns: ['node_modules[\\\\/](?!(@nestjs)[\\\\/])'],
   coverageDirectory: './coverage',
   testEnvironment: 'node',
 };

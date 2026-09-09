@@ -1,0 +1,20 @@
+enum PlanType {
+  FREE
+  PRO
+}
+
+model User {
+  id           String @id @default(cuid())
+  name         String
+  email        String @unique
+  passwordHash String
+
+  emailVerified            DateTime?
+  verificationTokenHash    String?
+  verificationTokenExpires  DateTime?
+
+  planType  PlanType   @default(FREE)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  documents Document[]
+}
