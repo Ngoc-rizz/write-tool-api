@@ -80,6 +80,59 @@ export class AuthService {
         }
     }
 
+    async forgotPassword(email: string) {
+        const user = await this.prisma.user.findUnique({ where: { email } })
+
+        const genericResponse = {
+            message: 'Nếu email tồn tại, hướng dẫn đặt lại mật khẩu đã được gửi.',
+        };
+        if (!user) return genericResponse
+
+        const rawToken = randomInt(100000, 999999).toString()
+        const tokenHash = createHash('sha256').update(rawToken).digest('hex');
+        const expires = new Date(Date.now() + 15 * 60 * 1000);
+
+        await this.prisma.user.update({
+            where: { id: user.id },
+            data: { resetPasswordTokenExpires: expires, resetPasswordTokenHash: tokenHash }
+        })
+
+        const resetUrl = `${this.configService.getOrThrow<string>('FRONTEND_URL')}/reset-password?token=${rawToken}`;
+
+        await this.emailService.sendResetPasswordEmail(user.email, resetUrl)
+
+        return genericResponse
+
+    }
+
+    async resetPassword(token: string, newPassword: string) {
+        const tokenHash = createHash('sha256').update(token).digest('hex');
+
+        const user = await this.prisma.user.findFirst({
+            where: {
+                resetPasswordTokenHash: tokenHash,
+                resetPasswordTokenExpires: { gt: new Date() },
+            },
+        });
+
+        if (!user) {
+            throw new BadRequestException('Token không hợp lệ hoặc đã hết hạn');
+        }
+
+        const passwordHash = await bcrypt.hash(newPassword, 10);
+
+        await this.prisma.user.update({
+            where: { id: user.id },
+            data: {
+                passwordHash,
+                resetPasswordTokenHash: null,
+                resetPasswordTokenExpires: null,
+            },
+        });
+
+        return { message: 'Đặt lại mật khẩu thành công' };
+    }
+
     private async createUser(name: string, email: string, passwordHash: string, verificationTokenHash: string, verificationTokenExpires: Date) {
         return this.prisma.user.create({
             data: {
