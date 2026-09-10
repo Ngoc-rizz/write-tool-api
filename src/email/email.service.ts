@@ -29,8 +29,8 @@ export class EmailService {
     }
 
     async sendResetPasswordEmail(to: string, resetUrl: string) {
-        await this.resend.emails.send({
-            from: 'noreply@myapp.com',
+        await this.transporter.sendMail({
+            from: `"NoReply - Writing Place" <${this.config.get('GMAIL_USER')}>`,
             to,
             subject: 'Đặt lại mật khẩu',
             html: `

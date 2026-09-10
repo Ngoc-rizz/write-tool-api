@@ -6,6 +6,7 @@ import { VerifyEmailDto } from './dto/verify-email.dto';
 import { ApiOperation } from '@nestjs/swagger';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ForgotPasswordDTO } from './dto/forgot-password.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 
 @Controller('auth')
@@ -41,4 +42,11 @@ export class AuthController {
     async resetPassword(@Body() dto: ResetPasswordDto) {
         return await this.authService.resetPassword(dto.token, dto.newPassword);
     }
+
+    @Post('refresh')
+    @ApiOperation({ summary: 'Làm mới token' })
+    refresh(@Body() dto: RefreshTokenDto) {
+        return this.authService.refresh(dto.refreshToken);
+    }
+
 }
