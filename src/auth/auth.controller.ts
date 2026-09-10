@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { RegisterDTO } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 
 @Controller('auth')
@@ -23,4 +24,10 @@ export class AuthController {
     async verifyEmail(@Body() dto: VerifyEmailDto) {
         return await this.authService.verifyEmail(dto);
     }
+
+    @Post('refresh')
+    refresh(@Body() dto: RefreshTokenDto) {
+        return this.authService.refresh(dto.refreshToken);
+    }
+
 }

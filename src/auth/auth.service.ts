@@ -6,10 +6,23 @@ import { RegisterDTO } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { EmailService } from '@/email/email.service';
+import { JwtService, JwtSignOptions } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly prisma: PrismaService, private readonly emailService: EmailService) { }
+    constructor(private configService: ConfigService, private readonly prisma: PrismaService, private readonly emailService: EmailService, private jwtService: JwtService) { }
+
+    async refresh(refreshToken: string) {
+        try {
+            const payload = this.jwtService.verify(refreshToken, {
+                secret: this.configService.getOrThrow<string>('JWT_REFRESH_SECRET'),
+            })
+            return this.generateTokens(payload.sub, payload.email)
+        } catch {
+            throw new UnauthorizedException('Require to login again')
+        }
+    }
 
     async register(dto: RegisterDTO) {
         const email = dto.email.trim().toLocaleLowerCase()
@@ -51,14 +64,19 @@ export class AuthService {
         if (!user || !isPasswordValid || !user.emailVerified)
             throw new UnauthorizedException('Invalid credentials')
 
+        const tokens = this.generateTokens(user.id, user.email)
+
         return {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            planType: user.planType,
-            emailVerified: user.emailVerified,
-            createdAt: user.createdAt,
-            updatedAt: user.updatedAt,
+            tokens,
+            user: {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                planType: user.planType,
+                emailVerified: user.emailVerified,
+                createdAt: user.createdAt,
+                updatedAt: user.updatedAt,
+            }
         }
     }
 
@@ -122,6 +140,25 @@ export class AuthService {
 
     private hashToken = (token: string) => {
         return createHash('sha256').update(token).digest('hex')
+    }
+
+    private generateTokens(userId: string, email: string) {
+        const payload: object = { sub: userId, email }
+
+        const accessOptions: JwtSignOptions = {
+            secret: this.configService.getOrThrow<string>('JWT_ACCESS_SECRET'),
+            expiresIn: Number(this.configService.getOrThrow<string>('JWT_ACCESS_EXPIRES')),
+        };
+
+        const refreshOptions: JwtSignOptions = {
+            secret: this.configService.getOrThrow<string>('JWT_REFRESH_SECRET'),
+            expiresIn: Number(this.configService.getOrThrow<string>('JWT_REFRESH_EXPIRES')),
+        };
+
+        const accessToken = this.jwtService.sign(payload, accessOptions);
+        const refreshToken = this.jwtService.sign(payload, refreshOptions);
+
+        return { accessToken, refreshToken }
     }
 
 
