@@ -8,6 +8,9 @@ import { CommonModule } from './common/common.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { EmailService } from './email/email.service';
 import { EmailModule } from './email/email.module';
+import { ChaptersService } from './chapters/chapters.service';
+import { ChaptersController } from './chapters/chapters.controller';
+import { ChaptersModule } from './chapters/chapters.module';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -21,9 +24,10 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     }),
     AuthModule,
     CommonModule,
-    EmailModule
+    EmailModule,
+    ChaptersModule
   ],
-  controllers: [AppController],
-  providers: [AppService, PrismaModule, EmailService],
+  controllers: [AppController, ChaptersController],
+  providers: [AppService, PrismaModule, EmailService, ChaptersService],
 })
 export class AppModule { }

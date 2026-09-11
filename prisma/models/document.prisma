@@ -8,6 +8,8 @@ model Document {
   language String?
   title    String
 
+  wordCount Int @default(0)
+
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   writingSessions WritingSession[]

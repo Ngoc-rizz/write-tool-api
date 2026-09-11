@@ -20,8 +20,18 @@ export type DocumentModel = runtime.Types.Result.DefaultSelection<Prisma.$Docume
 
 export type AggregateDocument = {
   _count: DocumentCountAggregateOutputType | null
+  _avg: DocumentAvgAggregateOutputType | null
+  _sum: DocumentSumAggregateOutputType | null
   _min: DocumentMinAggregateOutputType | null
   _max: DocumentMaxAggregateOutputType | null
+}
+
+export type DocumentAvgAggregateOutputType = {
+  wordCount: number | null
+}
+
+export type DocumentSumAggregateOutputType = {
+  wordCount: number | null
 }
 
 export type DocumentMinAggregateOutputType = {
@@ -31,6 +41,7 @@ export type DocumentMinAggregateOutputType = {
   note: string | null
   language: string | null
   title: string | null
+  wordCount: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -42,6 +53,7 @@ export type DocumentMaxAggregateOutputType = {
   note: string | null
   language: string | null
   title: string | null
+  wordCount: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -53,11 +65,20 @@ export type DocumentCountAggregateOutputType = {
   note: number
   language: number
   title: number
+  wordCount: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
+
+export type DocumentAvgAggregateInputType = {
+  wordCount?: true
+}
+
+export type DocumentSumAggregateInputType = {
+  wordCount?: true
+}
 
 export type DocumentMinAggregateInputType = {
   id?: true
@@ -66,6 +87,7 @@ export type DocumentMinAggregateInputType = {
   note?: true
   language?: true
   title?: true
+  wordCount?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -77,6 +99,7 @@ export type DocumentMaxAggregateInputType = {
   note?: true
   language?: true
   title?: true
+  wordCount?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -88,6 +111,7 @@ export type DocumentCountAggregateInputType = {
   note?: true
   language?: true
   title?: true
+  wordCount?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -131,6 +155,18 @@ export type DocumentAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: DocumentAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: DocumentSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: DocumentMinAggregateInputType
@@ -161,6 +197,8 @@ export type DocumentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: DocumentCountAggregateInputType | true
+  _avg?: DocumentAvgAggregateInputType
+  _sum?: DocumentSumAggregateInputType
   _min?: DocumentMinAggregateInputType
   _max?: DocumentMaxAggregateInputType
 }
@@ -172,9 +210,12 @@ export type DocumentGroupByOutputType = {
   note: string | null
   language: string | null
   title: string
+  wordCount: number
   createdAt: Date
   updatedAt: Date
   _count: DocumentCountAggregateOutputType | null
+  _avg: DocumentAvgAggregateOutputType | null
+  _sum: DocumentSumAggregateOutputType | null
   _min: DocumentMinAggregateOutputType | null
   _max: DocumentMaxAggregateOutputType | null
 }
@@ -204,6 +245,7 @@ export type DocumentWhereInput = {
   note?: Prisma.StringNullableFilter<"Document"> | string | null
   language?: Prisma.StringNullableFilter<"Document"> | string | null
   title?: Prisma.StringFilter<"Document"> | string
+  wordCount?: Prisma.IntFilter<"Document"> | number
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -218,6 +260,7 @@ export type DocumentOrderByWithRelationInput = {
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   language?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
+  wordCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -235,6 +278,7 @@ export type DocumentWhereUniqueInput = Prisma.AtLeast<{
   note?: Prisma.StringNullableFilter<"Document"> | string | null
   language?: Prisma.StringNullableFilter<"Document"> | string | null
   title?: Prisma.StringFilter<"Document"> | string
+  wordCount?: Prisma.IntFilter<"Document"> | number
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -249,11 +293,14 @@ export type DocumentOrderByWithAggregationInput = {
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   language?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
+  wordCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DocumentCountOrderByAggregateInput
+  _avg?: Prisma.DocumentAvgOrderByAggregateInput
   _max?: Prisma.DocumentMaxOrderByAggregateInput
   _min?: Prisma.DocumentMinOrderByAggregateInput
+  _sum?: Prisma.DocumentSumOrderByAggregateInput
 }
 
 export type DocumentScalarWhereWithAggregatesInput = {
@@ -266,6 +313,7 @@ export type DocumentScalarWhereWithAggregatesInput = {
   note?: Prisma.StringNullableWithAggregatesFilter<"Document"> | string | null
   language?: Prisma.StringNullableWithAggregatesFilter<"Document"> | string | null
   title?: Prisma.StringWithAggregatesFilter<"Document"> | string
+  wordCount?: Prisma.IntWithAggregatesFilter<"Document"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Document"> | Date | string
 }
@@ -276,6 +324,7 @@ export type DocumentCreateInput = {
   note?: string | null
   language?: string | null
   title: string
+  wordCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDocumentsInput
@@ -290,6 +339,7 @@ export type DocumentUncheckedCreateInput = {
   note?: string | null
   language?: string | null
   title: string
+  wordCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   writingSessions?: Prisma.WritingSessionUncheckedCreateNestedManyWithoutDocumentInput
@@ -302,6 +352,7 @@ export type DocumentUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  wordCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDocumentsNestedInput
@@ -316,6 +367,7 @@ export type DocumentUncheckedUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  wordCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   writingSessions?: Prisma.WritingSessionUncheckedUpdateManyWithoutDocumentNestedInput
@@ -329,6 +381,7 @@ export type DocumentCreateManyInput = {
   note?: string | null
   language?: string | null
   title: string
+  wordCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -339,6 +392,7 @@ export type DocumentUpdateManyMutationInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  wordCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -350,6 +404,7 @@ export type DocumentUncheckedUpdateManyInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  wordCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -366,8 +421,13 @@ export type DocumentCountOrderByAggregateInput = {
   note?: Prisma.SortOrder
   language?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  wordCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type DocumentAvgOrderByAggregateInput = {
+  wordCount?: Prisma.SortOrder
 }
 
 export type DocumentMaxOrderByAggregateInput = {
@@ -377,6 +437,7 @@ export type DocumentMaxOrderByAggregateInput = {
   note?: Prisma.SortOrder
   language?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  wordCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -388,8 +449,13 @@ export type DocumentMinOrderByAggregateInput = {
   note?: Prisma.SortOrder
   language?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  wordCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type DocumentSumOrderByAggregateInput = {
+  wordCount?: Prisma.SortOrder
 }
 
 export type DocumentListRelationFilter = {
@@ -478,6 +544,7 @@ export type DocumentCreateWithoutChaptersInput = {
   note?: string | null
   language?: string | null
   title: string
+  wordCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDocumentsInput
@@ -491,6 +558,7 @@ export type DocumentUncheckedCreateWithoutChaptersInput = {
   note?: string | null
   language?: string | null
   title: string
+  wordCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   writingSessions?: Prisma.WritingSessionUncheckedCreateNestedManyWithoutDocumentInput
@@ -518,6 +586,7 @@ export type DocumentUpdateWithoutChaptersInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  wordCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDocumentsNestedInput
@@ -531,6 +600,7 @@ export type DocumentUncheckedUpdateWithoutChaptersInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  wordCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   writingSessions?: Prisma.WritingSessionUncheckedUpdateManyWithoutDocumentNestedInput
@@ -542,6 +612,7 @@ export type DocumentCreateWithoutUserInput = {
   note?: string | null
   language?: string | null
   title: string
+  wordCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   writingSessions?: Prisma.WritingSessionCreateNestedManyWithoutDocumentInput
@@ -554,6 +625,7 @@ export type DocumentUncheckedCreateWithoutUserInput = {
   note?: string | null
   language?: string | null
   title: string
+  wordCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   writingSessions?: Prisma.WritingSessionUncheckedCreateNestedManyWithoutDocumentInput
@@ -596,6 +668,7 @@ export type DocumentScalarWhereInput = {
   note?: Prisma.StringNullableFilter<"Document"> | string | null
   language?: Prisma.StringNullableFilter<"Document"> | string | null
   title?: Prisma.StringFilter<"Document"> | string
+  wordCount?: Prisma.IntFilter<"Document"> | number
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Document"> | Date | string
 }
@@ -606,6 +679,7 @@ export type DocumentCreateWithoutWritingSessionsInput = {
   note?: string | null
   language?: string | null
   title: string
+  wordCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDocumentsInput
@@ -619,6 +693,7 @@ export type DocumentUncheckedCreateWithoutWritingSessionsInput = {
   note?: string | null
   language?: string | null
   title: string
+  wordCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutDocumentInput
@@ -646,6 +721,7 @@ export type DocumentUpdateWithoutWritingSessionsInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  wordCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDocumentsNestedInput
@@ -659,6 +735,7 @@ export type DocumentUncheckedUpdateWithoutWritingSessionsInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  wordCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chapters?: Prisma.ChapterUncheckedUpdateManyWithoutDocumentNestedInput
@@ -670,6 +747,7 @@ export type DocumentCreateManyUserInput = {
   note?: string | null
   language?: string | null
   title: string
+  wordCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -680,6 +758,7 @@ export type DocumentUpdateWithoutUserInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  wordCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   writingSessions?: Prisma.WritingSessionUpdateManyWithoutDocumentNestedInput
@@ -692,6 +771,7 @@ export type DocumentUncheckedUpdateWithoutUserInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  wordCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   writingSessions?: Prisma.WritingSessionUncheckedUpdateManyWithoutDocumentNestedInput
@@ -704,6 +784,7 @@ export type DocumentUncheckedUpdateManyWithoutUserInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  wordCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -755,6 +836,7 @@ export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   note?: boolean
   language?: boolean
   title?: boolean
+  wordCount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -770,6 +852,7 @@ export type DocumentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   note?: boolean
   language?: boolean
   title?: boolean
+  wordCount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -782,6 +865,7 @@ export type DocumentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   note?: boolean
   language?: boolean
   title?: boolean
+  wordCount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -794,11 +878,12 @@ export type DocumentSelectScalar = {
   note?: boolean
   language?: boolean
   title?: boolean
+  wordCount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "summary" | "note" | "language" | "title" | "createdAt" | "updatedAt", ExtArgs["result"]["document"]>
+export type DocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "summary" | "note" | "language" | "title" | "wordCount" | "createdAt" | "updatedAt", ExtArgs["result"]["document"]>
 export type DocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   writingSessions?: boolean | Prisma.Document$writingSessionsArgs<ExtArgs>
@@ -826,6 +911,7 @@ export type $DocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     note: string | null
     language: string | null
     title: string
+    wordCount: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["document"]>
@@ -1260,6 +1346,7 @@ export interface DocumentFieldRefs {
   readonly note: Prisma.FieldRef<"Document", 'String'>
   readonly language: Prisma.FieldRef<"Document", 'String'>
   readonly title: Prisma.FieldRef<"Document", 'String'>
+  readonly wordCount: Prisma.FieldRef<"Document", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Document", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Document", 'DateTime'>
 }
