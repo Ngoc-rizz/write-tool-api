@@ -754,6 +754,8 @@ export const ChapterScalarFieldEnum = {
   content: 'content',
   title: 'title',
   order: 'order',
+  wordCount: 'wordCount',
+  charCount: 'charCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -768,6 +770,7 @@ export const DocumentScalarFieldEnum = {
   note: 'note',
   language: 'language',
   title: 'title',
+  wordCount: 'wordCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

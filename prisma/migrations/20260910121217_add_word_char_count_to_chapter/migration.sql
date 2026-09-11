@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Chapter" ADD COLUMN     "charCount" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "wordCount" INTEGER NOT NULL DEFAULT 0;
