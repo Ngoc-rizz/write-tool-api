@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength, MaxLength } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, MinLength, MaxLength, Matches } from "class-validator";
 
 export class RegisterDTO {
     @IsString()
@@ -7,6 +7,9 @@ export class RegisterDTO {
 
     @IsEmail()
     @IsNotEmpty()
+    @Matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, {
+        message: 'Email is not in a valid format',
+    })
     email: string;
 
     @IsString()
