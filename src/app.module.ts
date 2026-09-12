@@ -11,6 +11,9 @@ import { EmailModule } from './email/email.module';
 import { ChaptersService } from './chapters/chapters.service';
 import { ChaptersController } from './chapters/chapters.controller';
 import { ChaptersModule } from './chapters/chapters.module';
+import { DocumentsService } from './documents/documents.service';
+import { DocumentsController } from './documents/documents.controller';
+import { DocumentsModule } from './documents/documents.module';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -25,9 +28,10 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     AuthModule,
     CommonModule,
     EmailModule,
-    ChaptersModule
+    ChaptersModule,
+    DocumentsModule
   ],
-  controllers: [AppController, ChaptersController],
-  providers: [AppService, PrismaModule, EmailService, ChaptersService],
+  controllers: [AppController, ChaptersController, DocumentsController],
+  providers: [AppService, PrismaModule, EmailService, ChaptersService, DocumentsService],
 })
 export class AppModule { }
