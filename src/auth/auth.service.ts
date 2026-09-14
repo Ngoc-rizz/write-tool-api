@@ -76,9 +76,6 @@ export class AuthService {
                 email: user.email,
                 name: user.name,
                 planType: user.planType,
-                emailVerified: user.emailVerified,
-                createdAt: user.createdAt,
-                updatedAt: user.updatedAt,
             }
         }
     }
