@@ -4,13 +4,25 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     instrument: ObserveInstrument,
   })
+
+  app.use(helmet())
+  app.use(cookieParser())
+
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  app.enableCors({
+    origin: frontendUrl,
+    credentials: true,
+  })
+
   app.setGlobalPrefix('api/v1')
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
 
   app.useGlobalInterceptors(new ResponseInterceptor(new Reflector()));
   app.useGlobalFilters(new HttpExceptionFilter())

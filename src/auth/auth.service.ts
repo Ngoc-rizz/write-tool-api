@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/common';
-import { createHash, randomInt } from 'crypto';
+import { createHash, randomBytes, randomInt } from 'crypto';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '@/prisma/prisma.service';
 import { RegisterDTO } from './dto/register.dto';
@@ -61,8 +61,11 @@ export class AuthService {
             user?.passwordHash ?? '$2b$12$000000000000000000000000000000000000000000000000000000'
         )
 
-        if (!user || !isPasswordValid || !user.emailVerified)
+        if (!user || !isPasswordValid)
             throw new UnauthorizedException('Invalid credentials')
+
+        if (!user.emailVerified)
+            throw new UnauthorizedException('EMAIL_NOT_VERIFIED: Tài khoản chưa được xác thực email')
 
         const tokens = this.generateTokens(user.id, user.email)
 
@@ -105,11 +108,13 @@ export class AuthService {
 
     }
 
-    async resetPassword(token: string, newPassword: string) {
+    async resetPassword(email: string, token: string, newPassword: string) {
         const tokenHash = createHash('sha256').update(token).digest('hex');
+        const normalizedEmail = email.trim().toLocaleLowerCase();
 
         const user = await this.prisma.user.findFirst({
             where: {
+                email: normalizedEmail,
                 resetPasswordTokenHash: tokenHash,
                 resetPasswordTokenExpires: { gt: new Date() },
             },
@@ -155,9 +160,11 @@ export class AuthService {
 
     async verifyEmail(dto: VerifyEmailDto) {
         const tokenHash = this.hashToken(dto.token)
+        const normalizedEmail = dto.email.trim().toLocaleLowerCase();
 
         const user = await this.prisma.user.findFirst({
             where: {
+                email: normalizedEmail,
                 verificationTokenHash: tokenHash,
                 verificationTokenExpires: {
                     gt: new Date()
@@ -191,11 +198,59 @@ export class AuthService {
         return updateUser
     }
 
+    async resendVerification(email: string) {
+        const normalizedEmail = email.trim().toLocaleLowerCase();
+        const user = await this.prisma.user.findUnique({
+            where: { email: normalizedEmail },
+        });
+
+        const responseMessage = {
+            message: 'Nếu email tồn tại và chưa được xác thực, mã xác nhận mới đã được gửi.',
+        };
+
+        if (!user) return responseMessage;
+
+        if (user.emailVerified) {
+            throw new BadRequestException('Tài khoản đã được xác thực trước đó.');
+        }
+
+        const rawToken = randomInt(100000, 999999).toString();
+        const verificationTokenHash = this.hashToken(rawToken);
+        const verificationTokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+        await this.prisma.user.update({
+            where: { id: user.id },
+            data: {
+                verificationTokenHash,
+                verificationTokenExpires,
+            },
+        });
+
+        await this.emailService.sendVerificationEmail(normalizedEmail, rawToken);
+
+        return responseMessage;
+    }
+
     private hashToken = (token: string) => {
         return createHash('sha256').update(token).digest('hex')
     }
 
-    private generateTokens(userId: string, email: string) {
+
+    generateCsrfToken(): string {
+        return randomBytes(32).toString('hex');
+    }
+
+    verifyRefreshToken(token: string): { sub: string, email: string } {
+        try {
+            return this.jwtService.verify(token, {
+                secret: this.configService.getOrThrow<string>('JWT_REFRESH_SECRET'),
+            });
+        } catch {
+            throw new UnauthorizedException('Refresh token is invalid or expired');
+        }
+    }
+
+    generateTokens(userId: string, email: string) {
         const payload: object = { sub: userId, email }
 
         const accessOptions: JwtSignOptions = {
