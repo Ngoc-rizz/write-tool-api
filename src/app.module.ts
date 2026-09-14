@@ -1,18 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 import { createObserveModule } from '@nestjs/observe';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
-import { PrismaModule } from './prisma/prisma.module';
-import { EmailService } from './email/email.service';
 import { EmailModule } from './email/email.module';
-import { ChaptersService } from './chapters/chapters.service';
-import { ChaptersController } from './chapters/chapters.controller';
 import { ChaptersModule } from './chapters/chapters.module';
-import { DocumentsService } from './documents/documents.service';
-import { DocumentsController } from './documents/documents.controller';
 import { DocumentsModule } from './documents/documents.module';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
@@ -20,6 +16,10 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 10,
+    }]),
     ObserveModule.forRoot({
       appKey: 'YOUR_APP_KEY',
       appSecret: 'YOUR_APP_SECRET',
@@ -29,9 +29,15 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     CommonModule,
     EmailModule,
     ChaptersModule,
-    DocumentsModule
+    DocumentsModule,
   ],
-  controllers: [AppController, ChaptersController, DocumentsController],
-  providers: [AppService, PrismaModule, EmailService, ChaptersService, DocumentsService],
+  controllers: [AppController],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule { }
