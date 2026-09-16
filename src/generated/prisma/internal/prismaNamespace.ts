@@ -789,6 +789,7 @@ export const UserScalarFieldEnum = {
   resetPasswordTokenHash: 'resetPasswordTokenHash',
   resetPasswordTokenExpires: 'resetPasswordTokenExpires',
   planType: 'planType',
+  role: 'role',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

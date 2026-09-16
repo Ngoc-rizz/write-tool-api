@@ -1,14 +1,17 @@
-import { Body, Controller, ForbiddenException, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Post, Get, UseGuards, Req, Res } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { RegisterDTO } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { ResendVerificationDto } from './dto/resend-verification.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ForgotPasswordDTO } from './dto/forgot-password.dto';
 import { ConfigService } from '@nestjs/config';
+import { OptionalJwtAuthGuard } from '@/common/strategies/optional-jwt-auth.guard';
+import { CurrentUser } from '@/common/decorators/current-user.decorator';
+import type { JwtPayload } from '@/common/decorators/current-user.decorator';
 
 const REFRESH_COOKIE_NAME = 'refreshToken';
 const CSRF_COOKIE_NAME = 'csrfToken';
@@ -34,14 +37,14 @@ export class AuthController {
             httpOnly: false,
             secure: isProd,
             sameSite: 'lax',
-            path: AUTH_COOKIE_PATH,
+            path: '/',
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
     }
 
     private clearAuthCookies(res: Response) {
         res.clearCookie(REFRESH_COOKIE_NAME, { path: AUTH_COOKIE_PATH });
-        res.clearCookie(CSRF_COOKIE_NAME, { path: AUTH_COOKIE_PATH });
+        res.clearCookie(CSRF_COOKIE_NAME, { path: '/' });
     }
 
     private checkCsrf(req: Request) {
@@ -67,7 +70,11 @@ export class AuthController {
 
         this.setAuthCookies(res, tokens.refreshToken, csrfToken);
 
-        return { accessToken: tokens.accessToken, csrfToken, user };
+        return {
+            accessToken: tokens.accessToken,
+            csrfToken,
+            user: { ...user, permissions: ['all'] },
+        };
     }
 
     @Post('verify-email')
@@ -119,5 +126,17 @@ export class AuthController {
         this.checkCsrf(req);
         this.clearAuthCookies(res);
         return { message: 'Đã đăng xuất' };
+    }
+
+    @Get('me')
+    @UseGuards(OptionalJwtAuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Lấy thông tin người dùng hiện tại' })
+    async getMe(@CurrentUser() user: JwtPayload | null) {
+        if (!user) {
+            throw new ForbiddenException('Chưa đăng nhập');
+        }
+        const me = await this.authService.getMe(user.userId);
+        return { ...me, role: me.role, permissions: ['all'] };
     }
 }

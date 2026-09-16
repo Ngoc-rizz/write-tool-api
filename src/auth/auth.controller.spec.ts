@@ -61,7 +61,7 @@ describe('AuthController', () => {
       expect(result).toEqual(serviceResult);
     });
   });
-  
+
   describe('login', () => {
     it('should call AuthService.login', async () => {
       const dto = {
@@ -94,6 +94,7 @@ describe('AuthController', () => {
   describe('verifyEmail', () => {
     it('should call AuthService.verifyEmail', async () => {
       const dto = {
+        email: 'iris@gmail.com',
         token: 'abc123',
       };
 

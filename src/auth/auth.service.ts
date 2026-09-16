@@ -76,11 +76,17 @@ export class AuthService {
                 email: user.email,
                 name: user.name,
                 planType: user.planType,
-                emailVerified: user.emailVerified,
-                createdAt: user.createdAt,
-                updatedAt: user.updatedAt,
             }
         }
+    }
+
+    async getMe(userId: string) {
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+            select: { id: true, email: true, name: true, planType: true, role: true }
+        });
+        if (!user) throw new UnauthorizedException('User not found');
+        return user;
     }
 
     async forgotPassword(email: string) {

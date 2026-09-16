@@ -11,12 +11,13 @@ model User {
 
   emailVerified            DateTime?
   verificationTokenHash    String?
-  verificationTokenExpires  DateTime?
+  verificationTokenExpires DateTime?
 
-  resetPasswordTokenHash String?
+  resetPasswordTokenHash    String?
   resetPasswordTokenExpires DateTime?
 
   planType  PlanType   @default(FREE)
+  role      String     @default("user")
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   documents Document[]
