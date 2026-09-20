@@ -63,7 +63,7 @@ export class AuthController {
     }
 
     @Post('login')
-    @ApiOperation({ summary: 'Đăng nhập' })
+    @ApiOperation({ summary: 'Log in' })
     async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
         const { tokens, user } = await this.authService.login(dto);
         const csrfToken = this.authService.generateCsrfToken();
@@ -121,7 +121,7 @@ export class AuthController {
     }
 
     @Post('logout')
-    @ApiOperation({ summary: 'Đăng xuất' })
+    @ApiOperation({ summary: 'Log out' })
     logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
         this.checkCsrf(req);
         this.clearAuthCookies(res);

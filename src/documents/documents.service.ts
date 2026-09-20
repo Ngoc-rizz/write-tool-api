@@ -53,7 +53,7 @@ export class DocumentsService {
             include: { chapters: { orderBy: { order: 'asc' } } },
         });
 
-        if (!doc) throw new NotFoundException('Tài liệu không tồn tại');
+        if (!doc) throw new NotFoundException('Documents không tồn tại');
         if (doc.userId !== userId) throw new ForbiddenException('Bạn không có quyền truy cập tài liệu này');
         return doc;
     }

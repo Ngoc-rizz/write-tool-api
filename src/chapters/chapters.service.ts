@@ -23,7 +23,7 @@ export class ChaptersService {
 
         if (documentId) {
             const doc = await this.prisma.document.findUnique({ where: { id: documentId } });
-            if (!doc) throw new NotFoundException('Tài liệu không tồn tại');
+            if (!doc) throw new NotFoundException('Documents không tồn tại');
             if (doc.userId !== userId) throw new ForbiddenException('Bạn không có quyền truy cập tài liệu này');
 
             return this.prisma.chapter.findMany({
@@ -44,8 +44,8 @@ export class ChaptersService {
         const chapter = await this.prisma.chapter.findUnique({
             where: { id: chapterId },
         });
-        if (!chapter) throw new NotFoundException('Chương không tồn tại');
-        if (chapter.userId !== userId) throw new ForbiddenException('Bạn không có quyền truy cập chương này');
+        if (!chapter) throw new NotFoundException('Chapter not found');
+        if (chapter.userId !== userId) throw new ForbiddenException('Bạn không có quyền truy cập chapters này');
         return chapter;
     }
 
@@ -55,8 +55,8 @@ export class ChaptersService {
             const doc = await this.prisma.document.findUnique({
                 where: { id: dto.documentId },
             });
-            if (!doc) throw new NotFoundException('Tài liệu không tồn tại');
-            if (doc.userId !== userId) throw new ForbiddenException('Bạn không có quyền thêm chương vào tài liệu này');
+            if (!doc) throw new NotFoundException('Documents không tồn tại');
+            if (doc.userId !== userId) throw new ForbiddenException('Bạn không có quyền thêm chapters vào tài liệu này');
         }
 
         const newWordCount = countWords(dto.contentText || '');
@@ -145,7 +145,7 @@ export class ChaptersService {
 
         await this.prisma.$transaction(transactions);
 
-        return { message: 'Đã xoá chương' };
+        return { message: 'Đã xoá chapters' };
     }
 
 

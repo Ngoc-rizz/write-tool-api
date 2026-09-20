@@ -67,7 +67,7 @@ export class EmailService {
                 </tr>
                 <tr>
                   <td style="padding:20px 40px; background:#fafafa; border-top:1px solid #f0f0f0;">
-                    <p style="font-size:11px; color:#a1a1aa; margin:0;">© 2026 Mực & Giấy. Email này được gửi tự động, vui lòng không trả lời.</p>
+                    <p style="font-size:11px; color:#a1a1aa; margin:0;">© 2026 Ink & Paper. Email này được gửi tự động, vui lòng không trả lời.</p>
                   </td>
                 </tr>
               </table>
