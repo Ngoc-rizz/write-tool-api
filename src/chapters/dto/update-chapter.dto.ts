@@ -12,4 +12,9 @@ export class UpdateChapterDto {
     @IsInt()
     @Min(0)
     order?: number;
+
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsString()
+    documentId?: string;
 }

@@ -409,9 +409,9 @@ export type DocumentUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type DocumentScalarRelationFilter = {
-  is?: Prisma.DocumentWhereInput
-  isNot?: Prisma.DocumentWhereInput
+export type DocumentNullableScalarRelationFilter = {
+  is?: Prisma.DocumentWhereInput | null
+  isNot?: Prisma.DocumentWhereInput | null
 }
 
 export type DocumentCountOrderByAggregateInput = {
@@ -468,16 +468,23 @@ export type DocumentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type DocumentScalarRelationFilter = {
+  is?: Prisma.DocumentWhereInput
+  isNot?: Prisma.DocumentWhereInput
+}
+
 export type DocumentCreateNestedOneWithoutChaptersInput = {
   create?: Prisma.XOR<Prisma.DocumentCreateWithoutChaptersInput, Prisma.DocumentUncheckedCreateWithoutChaptersInput>
   connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutChaptersInput
   connect?: Prisma.DocumentWhereUniqueInput
 }
 
-export type DocumentUpdateOneRequiredWithoutChaptersNestedInput = {
+export type DocumentUpdateOneWithoutChaptersNestedInput = {
   create?: Prisma.XOR<Prisma.DocumentCreateWithoutChaptersInput, Prisma.DocumentUncheckedCreateWithoutChaptersInput>
   connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutChaptersInput
   upsert?: Prisma.DocumentUpsertWithoutChaptersInput
+  disconnect?: Prisma.DocumentWhereInput | boolean
+  delete?: Prisma.DocumentWhereInput | boolean
   connect?: Prisma.DocumentWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentUpdateToOneWithWhereWithoutChaptersInput, Prisma.DocumentUpdateWithoutChaptersInput>, Prisma.DocumentUncheckedUpdateWithoutChaptersInput>
 }

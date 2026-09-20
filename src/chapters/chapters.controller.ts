@@ -1,4 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '@/common/strategies/jwt-auth.guard';
+import { CurrentUser } from '@/common/decorators/current-user.decorator';
+import type { JwtPayload } from '@/common/decorators/current-user.decorator';
 import { ChaptersService } from './chapters.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateChapterDto } from './dto/create-chapter.dto';
@@ -7,42 +10,43 @@ import { UpdateChapterContentDto } from './dto/update-chapter-content.dto';
 
 @Controller('chapters')
 @ApiTags('Chapters')
+@UseGuards(JwtAuthGuard)
 export class ChaptersController {
     constructor(private readonly chaptersService: ChaptersService) { }
 
     @Post()
     @ApiOperation({ summary: 'Tạo chương mới' })
-    create(@Body() dto: CreateChapterDto) {
-        return this.chaptersService.create(dto);
+    create(@CurrentUser() user: JwtPayload, @Body() dto: CreateChapterDto) {
+        return this.chaptersService.create(user.userId, dto);
     }
 
     @Get()
-    @ApiOperation({ summary: 'Lấy danh sách chương theo Document' })
-    findAll(@Query('documentId') documentId: string) {
-        return this.chaptersService.findAllByDocumentId(documentId);
+    @ApiOperation({ summary: 'Lấy danh sách chương (theo Document hoặc chương tự do)' })
+    findAll(@CurrentUser() user: JwtPayload, @Query('documentId') documentId?: string) {
+        return this.chaptersService.findAll(user.userId, documentId);
     }
 
     @Get(':id')
     @ApiOperation({ summary: 'Lấy chi tiết 1 chương' })
-    findOne(@Param('id') id: string) {
-        return this.chaptersService.findOne(id);
+    findOne(@CurrentUser() user: JwtPayload, @Param('id') id: string) {
+        return this.chaptersService.findOne(user.userId, id);
     }
 
     @Patch(':id')
     @ApiOperation({ summary: 'Cập nhật tiêu đề/thứ tự chương' })
-    update(@Param('id') id: string, @Body() dto: UpdateChapterDto) {
-        return this.chaptersService.update(id, dto);
+    update(@CurrentUser() user: JwtPayload, @Param('id') id: string, @Body() dto: UpdateChapterDto) {
+        return this.chaptersService.update(user.userId, id, dto);
     }
 
     @Patch(':id/content')
     @ApiOperation({ summary: 'Cập nhật nội dung chương (autosave)' })
-    updateContent(@Param('id') id: string, @Body() dto: UpdateChapterContentDto) {
-        return this.chaptersService.updateContent(id, dto.content);
+    updateContent(@CurrentUser() user: JwtPayload, @Param('id') id: string, @Body() dto: UpdateChapterContentDto) {
+        return this.chaptersService.updateContent(user.userId, id, dto.content, dto.contentText);
     }
 
     @Delete(':id')
     @ApiOperation({ summary: 'Xoá chương' })
-    remove(@Param('id') id: string) {
-        return this.chaptersService.remove(id);
+    remove(@CurrentUser() user: JwtPayload, @Param('id') id: string) {
+        return this.chaptersService.remove(user.userId, id);
     }
 }

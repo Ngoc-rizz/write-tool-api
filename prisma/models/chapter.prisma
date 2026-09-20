@@ -1,11 +1,16 @@
 model Chapter {
-  id         String   @id @default(cuid())
-  documentId String
-  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  id         String    @id @default(cuid())
+  documentId String?
+  document   Document? @relation(fields: [documentId], references: [id], onDelete: Cascade)
 
-  content String?
-  title   String
-  order   Int
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  content     Json?
+  contentText String? @db.Text
+
+  title String
+  order Int
 
   wordCount Int @default(0)
   charCount Int @default(0)
@@ -15,4 +20,5 @@ model Chapter {
   writingSessions WritingSession[]
 
   @@index([documentId, order])
+  @@index([userId])
 }
