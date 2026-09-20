@@ -1,84 +1,152 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateChapterDto } from './dto/create-chapter.dto';
 import { UpdateChapterDto } from './dto/update-chapter.dto';
+import { countWords, countChars } from 'src/common/utils/text.util';
 
 @Injectable()
 export class ChaptersService {
     constructor(private readonly prisma: PrismaService) { }
 
-    async findAllByDocumentId(documentId: string) {
+    async findAll(userId: string, documentId?: string) {
+        const selectFields = {
+            id: true,
+            title: true,
+            order: true,
+            wordCount: true,
+            charCount: true,
+            documentId: true,
+            userId: true,
+            createdAt: true,
+            updatedAt: true,
+        };
+
+        if (documentId) {
+            const doc = await this.prisma.document.findUnique({ where: { id: documentId } });
+            if (!doc) throw new NotFoundException('Tài liệu không tồn tại');
+            if (doc.userId !== userId) throw new ForbiddenException('Bạn không có quyền truy cập tài liệu này');
+
+            return this.prisma.chapter.findMany({
+                where: { documentId },
+                orderBy: { order: 'asc' },
+                select: selectFields,
+            });
+        }
+
         return this.prisma.chapter.findMany({
-            where: { documentId },
-            orderBy: { order: 'asc' },
+            where: { userId, documentId: null },
+            orderBy: { updatedAt: 'desc' },
+            select: selectFields,
         });
     }
 
-    async findOne(chapterId: string) {
-        const chapter = await this.prisma.chapter.findUnique({ where: { id: chapterId } })
-        if (!chapter) throw new Error("Chapter not found");
+    async findOne(userId: string, chapterId: string) {
+        const chapter = await this.prisma.chapter.findUnique({
+            where: { id: chapterId },
+        });
+        if (!chapter) throw new NotFoundException('Chương không tồn tại');
+        if (chapter.userId !== userId) throw new ForbiddenException('Bạn không có quyền truy cập chương này');
         return chapter;
     }
 
 
-    async create(dto: CreateChapterDto) {
-        return this.prisma.chapter.create({
-            data: {
-                documentId: dto.documentId,
-                title: dto.title,
-                order: dto.order,
-            },
-        });
+    async create(userId: string, dto: CreateChapterDto) {
+        if (dto.documentId) {
+            const doc = await this.prisma.document.findUnique({
+                where: { id: dto.documentId },
+            });
+            if (!doc) throw new NotFoundException('Tài liệu không tồn tại');
+            if (doc.userId !== userId) throw new ForbiddenException('Bạn không có quyền thêm chương vào tài liệu này');
+        }
+
+        const newWordCount = countWords(dto.contentText || '');
+        const newCharCount = countChars(dto.contentText || '');
+
+        const transactions: any[] = [
+            this.prisma.chapter.create({
+                data: {
+                    userId,
+                    documentId: dto.documentId,
+                    title: dto.title,
+                    order: dto.order ?? 0,
+                    content: dto.content ?? null,
+                    contentText: dto.contentText ?? null,
+                    wordCount: newWordCount,
+                    charCount: newCharCount,
+                },
+            })
+        ];
+
+        if (dto.documentId && newWordCount > 0) {
+            transactions.push(
+                this.prisma.document.update({
+                    where: { id: dto.documentId },
+                    data: { wordCount: { increment: newWordCount } },
+                })
+            );
+        }
+
+        const [createdChapter] = await this.prisma.$transaction(transactions);
+        return createdChapter;
     }
 
-    async update(chapterId: string, dto: UpdateChapterDto) {
-        await this.findOne(chapterId);
+    async update(userId: string, chapterId: string, dto: UpdateChapterDto) {
+        await this.findOne(userId, chapterId);
         return this.prisma.chapter.update({
             where: { id: chapterId },
             data: dto,
         });
     }
 
-    async updateContent(chapterId: string, content: string) {
-        const chapter = await this.findOne(chapterId);
+    async updateContent(userId: string, chapterId: string, content: any, contentText: string) {
+        const chapter = await this.findOne(userId, chapterId);
 
-        const newWordCount = this.countWords(content);
-        const newCharCount = this.countChars(content);
+        const newWordCount = countWords(contentText);
+        const newCharCount = countChars(contentText);
         const diff = newWordCount - chapter.wordCount;
 
-        const [updatedChapter] = await this.prisma.$transaction([
+        const transactions: any[] = [
             this.prisma.chapter.update({
                 where: { id: chapterId },
-                data: { content, wordCount: newWordCount, charCount: newCharCount },
-            }),
-            this.prisma.document.update({
-                where: { id: chapter.documentId },
-                data: { wordCount: { increment: diff } },
-            }),
-        ]);
-        return updatedChapter
+                data: { content: content ?? null, contentText, wordCount: newWordCount, charCount: newCharCount },
+            })
+        ];
+
+        if (chapter.documentId) {
+            transactions.push(
+                this.prisma.document.update({
+                    where: { id: chapter.documentId },
+                    data: { wordCount: { increment: diff } },
+                })
+            );
+        }
+
+        const [updatedChapter] = await this.prisma.$transaction(transactions);
+        return updatedChapter;
     }
 
-    async remove(chapterId: string) {
-        const chapter = await this.findOne(chapterId);
+    async remove(userId: string, chapterId: string) {
+        const chapter = await this.findOne(userId, chapterId);
 
-        await this.prisma.$transaction([
-            this.prisma.chapter.delete({ where: { id: chapterId } }),
-            this.prisma.document.update({
-                where: { id: chapter.documentId },
-                data: { wordCount: { decrement: chapter.wordCount } },
-            }),
-        ]);
+        const transactions: any[] = [
+            this.prisma.chapter.delete({ where: { id: chapterId } })
+        ];
+
+        if (chapter.documentId) {
+            transactions.push(
+                this.prisma.document.update({
+                    where: { id: chapter.documentId },
+                    data: {
+                        wordCount: { decrement: chapter.wordCount }
+                    },
+                })
+            );
+        }
+
+        await this.prisma.$transaction(transactions);
 
         return { message: 'Đã xoá chương' };
     }
 
-    private countWords(text: string): number {
-        if (!text) return 0;
-        return text.trim().split(/\s+/).filter(Boolean).length;
-    }
 
-    private countChars(text: string): number {
-        return text?.length ?? 0;
-    }
 }

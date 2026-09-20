@@ -1,11 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsInt, IsNotEmpty, IsString, Min } from "class-validator";
+import { IsInt, IsNotEmpty, IsOptional, IsString, Min } from "class-validator";
 
 export class CreateChapterDto {
-    @ApiProperty()
+    @ApiProperty({ required: false })
     @IsString()
-    @IsNotEmpty()
-    documentId: string;
+    @IsOptional()
+    documentId?: string;
 
     @ApiProperty()
     @IsNotEmpty()
@@ -15,5 +15,15 @@ export class CreateChapterDto {
     @ApiProperty()
     @IsInt()
     @Min(0)
-    order: number;
+    @IsOptional()
+    order?: number;
+
+    @ApiProperty({ required: false })
+    @IsOptional()
+    content?: any;
+
+    @ApiProperty({ required: false })
+    @IsString()
+    @IsOptional()
+    contentText?: string;
 }

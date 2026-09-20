@@ -1,8 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsString, IsOptional } from 'class-validator';
 
 export class UpdateChapterContentDto {
     @ApiProperty()
+    @IsOptional()
+    content: any;
+
+    @ApiProperty()
     @IsString()
-    content: string;
+    contentText: string;
 }

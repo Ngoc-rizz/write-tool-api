@@ -21,4 +21,5 @@ model User {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   documents Document[]
+  chapters  Chapter[]
 }

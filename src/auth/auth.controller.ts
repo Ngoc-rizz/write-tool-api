@@ -9,7 +9,7 @@ import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ForgotPasswordDTO } from './dto/forgot-password.dto';
 import { ConfigService } from '@nestjs/config';
-import { OptionalJwtAuthGuard } from '@/common/strategies/optional-jwt-auth.guard';
+import { JwtAuthGuard } from '@/common/strategies/jwt-auth.guard';
 import { CurrentUser } from '@/common/decorators/current-user.decorator';
 import type { JwtPayload } from '@/common/decorators/current-user.decorator';
 
@@ -129,13 +129,10 @@ export class AuthController {
     }
 
     @Get('me')
-    @UseGuards(OptionalJwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Lấy thông tin người dùng hiện tại' })
-    async getMe(@CurrentUser() user: JwtPayload | null) {
-        if (!user) {
-            throw new ForbiddenException('Chưa đăng nhập');
-        }
+    async getMe(@CurrentUser() user: JwtPayload) {
         const me = await this.authService.getMe(user.userId);
         return { ...me, role: me.role, permissions: ['all'] };
     }
