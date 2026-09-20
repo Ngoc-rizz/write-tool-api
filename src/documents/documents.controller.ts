@@ -26,7 +26,7 @@ export class DocumentsController {
     constructor(private readonly documentsService: DocumentsService) { }
 
     @Post()
-    @ApiOperation({ summary: 'Tạo tài liệu mới' })
+    @ApiOperation({ summary: 'Create new document' })
     create(@CurrentUser() user: JwtPayload, @Body() dto: CreateDocumentDto) {
         return this.documentsService.create(user.userId, dto);
     }
@@ -38,7 +38,7 @@ export class DocumentsController {
     }
 
     @Get(':id')
-    @ApiOperation({ summary: 'Lấy chi tiết tài liệu kèm danh sách chương' })
+    @ApiOperation({ summary: 'Lấy chi tiết tài liệu kèm danh sách chapters' })
     findOne(@CurrentUser() user: JwtPayload, @Param('id') id: string) {
         return this.documentsService.findOne(user.userId, id);
     }
