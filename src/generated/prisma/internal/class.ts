@@ -23,7 +23,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "D:\\Project\\ai-writing-assistant\\write-api\\src\\generated\\prisma",
+      "value": "D:\\Project\\write\\write-tool-api\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -37,16 +37,17 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\Project\\ai-writing-assistant\\write-api\\prisma\\schema.prisma",
+    "sourceFilePath": "D:\\Project\\write\\write-tool-api\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../../prisma",
-  "clientVersion": "6.19.2",
+  "clientVersion": "6.19.3",
   "engineVersion": "c2990dca591cba766e3b7ef5d9e8a84796e47ab7",
   "datasourceNames": [
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
