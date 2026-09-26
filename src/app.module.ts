@@ -10,6 +10,7 @@ import { CommonModule } from './common/common.module';
 import { EmailModule } from './email/email.module';
 import { ChaptersModule } from './chapters/chapters.module';
 import { DocumentsModule } from './documents/documents.module';
+import { PaymentsModule } from './payments/payments.module';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -30,6 +31,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     EmailModule,
     ChaptersModule,
     DocumentsModule,
+    PaymentsModule,
   ],
   controllers: [AppController],
   providers: [

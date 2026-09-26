@@ -1,0 +1,71 @@
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  SUCCESS
+  FAILED
+  EXPIRED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentProviderType {
+  SEPAY
+  MOCK
+}
+
+model Payment {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  planType PlanType
+  amount   Int
+  currency String              @default("VND")
+  status   PaymentStatus       @default(PENDING)
+  provider PaymentProviderType @default(MOCK)
+
+  qrCode          String? @db.Text
+  transferContent String  @unique
+
+  providerRef    String?
+  idempotencyKey String? @unique
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  expiredAt DateTime?
+  paidAt    DateTime?
+
+  webhookLogs PaymentWebhookLog[]
+  events      PaymentEvent[]
+
+  @@index([status])
+  @@index([userId])
+  @@index([transferContent])
+}
+
+model PaymentEvent {
+  id         String   @id @default(cuid())
+  paymentId  String
+  payment    Payment  @relation(fields: [paymentId], references: [id])
+  fromStatus String
+  toStatus   String
+  reason     String?
+  actor      String   @default("system") // "system" | "webhook" | "admin" | "user"
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([paymentId])
+}
+
+model PaymentWebhookLog {
+  id         String   @id @default(cuid())
+  paymentId  String
+  payment    Payment  @relation(fields: [paymentId], references: [id])
+  webhookId  String   @unique
+  rawPayload Json
+  processed  Boolean  @default(false)
+  error      String?
+  createdAt  DateTime @default(now())
+
+  @@index([paymentId])
+}

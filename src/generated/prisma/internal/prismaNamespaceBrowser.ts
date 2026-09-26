@@ -51,6 +51,9 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 export const ModelName = {
   Chapter: 'Chapter',
   Document: 'Document',
+  Payment: 'Payment',
+  PaymentEvent: 'PaymentEvent',
+  PaymentWebhookLog: 'PaymentWebhookLog',
   User: 'User',
   WritingSession: 'WritingSession'
 } as const
@@ -103,6 +106,54 @@ export const DocumentScalarFieldEnum = {
 export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
 
 
+export const PaymentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  planType: 'planType',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  provider: 'provider',
+  qrCode: 'qrCode',
+  transferContent: 'transferContent',
+  providerRef: 'providerRef',
+  idempotencyKey: 'idempotencyKey',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  expiredAt: 'expiredAt',
+  paidAt: 'paidAt'
+} as const
+
+export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+export const PaymentEventScalarFieldEnum = {
+  id: 'id',
+  paymentId: 'paymentId',
+  fromStatus: 'fromStatus',
+  toStatus: 'toStatus',
+  reason: 'reason',
+  actor: 'actor',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+} as const
+
+export type PaymentEventScalarFieldEnum = (typeof PaymentEventScalarFieldEnum)[keyof typeof PaymentEventScalarFieldEnum]
+
+
+export const PaymentWebhookLogScalarFieldEnum = {
+  id: 'id',
+  paymentId: 'paymentId',
+  webhookId: 'webhookId',
+  rawPayload: 'rawPayload',
+  processed: 'processed',
+  error: 'error',
+  createdAt: 'createdAt'
+} as const
+
+export type PaymentWebhookLogScalarFieldEnum = (typeof PaymentWebhookLogScalarFieldEnum)[keyof typeof PaymentWebhookLogScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -149,6 +200,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
