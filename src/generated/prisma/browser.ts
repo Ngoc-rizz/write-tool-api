@@ -28,6 +28,21 @@ export type Chapter = Prisma.ChapterModel
  */
 export type Document = Prisma.DocumentModel
 /**
+ * Model Payment
+ * 
+ */
+export type Payment = Prisma.PaymentModel
+/**
+ * Model PaymentEvent
+ * 
+ */
+export type PaymentEvent = Prisma.PaymentEventModel
+/**
+ * Model PaymentWebhookLog
+ * 
+ */
+export type PaymentWebhookLog = Prisma.PaymentWebhookLogModel
+/**
  * Model User
  * 
  */

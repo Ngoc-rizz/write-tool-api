@@ -10,6 +10,7 @@ import helmet from 'helmet';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     instrument: ObserveInstrument,
+    rawBody: true,
   })
 
   app.use(helmet())

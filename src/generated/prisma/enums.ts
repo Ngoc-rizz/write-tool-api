@@ -9,6 +9,27 @@
 * 🟢 You can import this file directly.
 */
 
+export const PaymentStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED',
+  REFUNDED: 'REFUNDED'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
+export const PaymentProviderType = {
+  SEPAY: 'SEPAY',
+  MOCK: 'MOCK'
+} as const
+
+export type PaymentProviderType = (typeof PaymentProviderType)[keyof typeof PaymentProviderType]
+
+
 export const PlanType = {
   FREE: 'FREE',
   PRO: 'PRO'

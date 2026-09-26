@@ -10,6 +10,9 @@
  */
 export type * from './models/Chapter.js'
 export type * from './models/Document.js'
+export type * from './models/Payment.js'
+export type * from './models/PaymentEvent.js'
+export type * from './models/PaymentWebhookLog.js'
 export type * from './models/User.js'
 export type * from './models/WritingSession.js'
 export type * from './commonInputTypes.js'

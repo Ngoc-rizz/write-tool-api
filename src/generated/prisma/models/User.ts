@@ -248,6 +248,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   documents?: Prisma.DocumentListRelationFilter
   chapters?: Prisma.ChapterListRelationFilter
+  payments?: Prisma.PaymentListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -266,6 +267,7 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   documents?: Prisma.DocumentOrderByRelationAggregateInput
   chapters?: Prisma.ChapterOrderByRelationAggregateInput
+  payments?: Prisma.PaymentOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -287,6 +289,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   documents?: Prisma.DocumentListRelationFilter
   chapters?: Prisma.ChapterListRelationFilter
+  payments?: Prisma.PaymentListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -343,6 +346,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   documents?: Prisma.DocumentCreateNestedManyWithoutUserInput
   chapters?: Prisma.ChapterCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -361,6 +365,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
   chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -379,6 +384,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.DocumentUpdateManyWithoutUserNestedInput
   chapters?: Prisma.ChapterUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -397,6 +403,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
   chapters?: Prisma.ChapterUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -528,12 +535,18 @@ export type UserUpdateOneRequiredWithoutDocumentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDocumentsInput, Prisma.UserUpdateWithoutDocumentsInput>, Prisma.UserUncheckedUpdateWithoutDocumentsInput>
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
+export type UserCreateNestedOneWithoutPaymentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentsInput, Prisma.UserUncheckedCreateWithoutPaymentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentsInput
+  connect?: Prisma.UserWhereUniqueInput
 }
 
-export type EnumPlanTypeFieldUpdateOperationsInput = {
-  set?: $Enums.PlanType
+export type UserUpdateOneRequiredWithoutPaymentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentsInput, Prisma.UserUncheckedCreateWithoutPaymentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentsInput
+  upsert?: Prisma.UserUpsertWithoutPaymentsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPaymentsInput, Prisma.UserUpdateWithoutPaymentsInput>, Prisma.UserUncheckedUpdateWithoutPaymentsInput>
 }
 
 export type UserCreateWithoutChaptersInput = {
@@ -551,6 +564,7 @@ export type UserCreateWithoutChaptersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   documents?: Prisma.DocumentCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChaptersInput = {
@@ -568,6 +582,7 @@ export type UserUncheckedCreateWithoutChaptersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChaptersInput = {
@@ -601,6 +616,7 @@ export type UserUpdateWithoutChaptersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.DocumentUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChaptersInput = {
@@ -618,6 +634,7 @@ export type UserUncheckedUpdateWithoutChaptersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDocumentsInput = {
@@ -635,6 +652,7 @@ export type UserCreateWithoutDocumentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   chapters?: Prisma.ChapterCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDocumentsInput = {
@@ -652,6 +670,7 @@ export type UserUncheckedCreateWithoutDocumentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDocumentsInput = {
@@ -685,6 +704,7 @@ export type UserUpdateWithoutDocumentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chapters?: Prisma.ChapterUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDocumentsInput = {
@@ -702,6 +722,95 @@ export type UserUncheckedUpdateWithoutDocumentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chapters?: Prisma.ChapterUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPaymentsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  emailVerified?: Date | string | null
+  verificationTokenHash?: string | null
+  verificationTokenExpires?: Date | string | null
+  resetPasswordTokenHash?: string | null
+  resetPasswordTokenExpires?: Date | string | null
+  planType?: $Enums.PlanType
+  role?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  documents?: Prisma.DocumentCreateNestedManyWithoutUserInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPaymentsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  emailVerified?: Date | string | null
+  verificationTokenHash?: string | null
+  verificationTokenExpires?: Date | string | null
+  resetPasswordTokenHash?: string | null
+  resetPasswordTokenExpires?: Date | string | null
+  planType?: $Enums.PlanType
+  role?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
+  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPaymentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaymentsInput, Prisma.UserUncheckedCreateWithoutPaymentsInput>
+}
+
+export type UserUpsertWithoutPaymentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPaymentsInput, Prisma.UserUncheckedUpdateWithoutPaymentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaymentsInput, Prisma.UserUncheckedCreateWithoutPaymentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPaymentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPaymentsInput, Prisma.UserUncheckedUpdateWithoutPaymentsInput>
+}
+
+export type UserUpdateWithoutPaymentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  planType?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  documents?: Prisma.DocumentUpdateManyWithoutUserNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPaymentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordTokenHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordTokenExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  planType?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
+  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -712,11 +821,13 @@ export type UserUncheckedUpdateWithoutDocumentsInput = {
 export type UserCountOutputType = {
   documents: number
   chapters: number
+  payments: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   documents?: boolean | UserCountOutputTypeCountDocumentsArgs
   chapters?: boolean | UserCountOutputTypeCountChaptersArgs
+  payments?: boolean | UserCountOutputTypeCountPaymentsArgs
 }
 
 /**
@@ -743,6 +854,13 @@ export type UserCountOutputTypeCountChaptersArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.ChapterWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPaymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PaymentWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -760,6 +878,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   documents?: boolean | Prisma.User$documentsArgs<ExtArgs>
   chapters?: boolean | Prisma.User$chaptersArgs<ExtArgs>
+  payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -815,6 +934,7 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   documents?: boolean | Prisma.User$documentsArgs<ExtArgs>
   chapters?: boolean | Prisma.User$chaptersArgs<ExtArgs>
+  payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -825,6 +945,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     documents: Prisma.$DocumentPayload<ExtArgs>[]
     chapters: Prisma.$ChapterPayload<ExtArgs>[]
+    payments: Prisma.$PaymentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1236,6 +1357,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   documents<T extends Prisma.User$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   chapters<T extends Prisma.User$chaptersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chaptersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChapterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  payments<T extends Prisma.User$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1711,6 +1833,30 @@ export type User$chaptersArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.ChapterScalarFieldEnum | Prisma.ChapterScalarFieldEnum[]
+}
+
+/**
+ * User.payments
+ */
+export type User$paymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Payment
+   */
+  select?: Prisma.PaymentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Payment
+   */
+  omit?: Prisma.PaymentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaymentInclude<ExtArgs> | null
+  where?: Prisma.PaymentWhereInput
+  orderBy?: Prisma.PaymentOrderByWithRelationInput | Prisma.PaymentOrderByWithRelationInput[]
+  cursor?: Prisma.PaymentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PaymentScalarFieldEnum | Prisma.PaymentScalarFieldEnum[]
 }
 
 /**

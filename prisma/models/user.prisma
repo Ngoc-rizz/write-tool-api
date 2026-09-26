@@ -22,4 +22,5 @@ model User {
   updatedAt DateTime   @updatedAt
   documents Document[]
   chapters  Chapter[]
+  payments  Payment[]
 }
