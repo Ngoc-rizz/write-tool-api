@@ -132,7 +132,7 @@ export class PaymentsService {
             this.logger.warn(`Webhook signature verification failed: ${verification.reason}`);
             throw new BadRequestException(`Invalid webhook signature: ${verification.reason}`);
         }
-        
+
         const txData = this.provider.extractWebhookData(body);
         this.logger.log(`Webhook received: content=${txData.content}, amount=${txData.amount}, ref=${txData.referenceCode}`);
 
