@@ -3,14 +3,14 @@ import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { createObserveModule } from '@nestjs/observe';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { CommonModule } from './common/common.module';
-import { EmailModule } from './email/email.module';
-import { ChaptersModule } from './chapters/chapters.module';
-import { DocumentsModule } from './documents/documents.module';
-import { PaymentsModule } from './payments/payments.module';
+import { AppController } from './app.controller.js';
+import { AppService } from './app.service.js';
+import { AuthModule } from './auth/auth.module.js';
+import { CommonModule } from './common/common.module.js';
+import { EmailModule } from './email/email.module.js';
+import { ChaptersModule } from './chapters/chapters.module.js';
+import { DocumentsModule } from './documents/documents.module.js';
+import { PaymentsModule } from './payments/payments.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 

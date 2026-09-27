@@ -1,8 +1,8 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateChapterDto } from './dto/create-chapter.dto';
-import { UpdateChapterDto } from './dto/update-chapter.dto';
-import { countWords, countChars } from 'src/common/utils/text.util';
+import { PrismaService } from '@/prisma/prisma.service.js';
+import { CreateChapterDto } from './dto/create-chapter.dto.js';
+import { UpdateChapterDto } from './dto/update-chapter.dto.js';
+import { countWords, countChars } from '@/common/utils/text.util.js';
 
 @Injectable()
 export class ChaptersService {

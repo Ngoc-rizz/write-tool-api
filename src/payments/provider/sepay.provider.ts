@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { IPaymentProvider, ProviderTransactionStatus, QrGenerationParams, QrGenerationResult, WebhookTransactionData, WebhookVerificationResult } from "./IPaymentProvider";
+import { IPaymentProvider, ProviderTransactionStatus, QrGenerationParams, QrGenerationResult, WebhookTransactionData, WebhookVerificationResult } from "./IPaymentProvider.js";
 import { ConfigService } from "@nestjs/config";
 import * as crypto from 'crypto';
 

@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
-import { PrismaService } from '@/prisma/prisma.service';
+import { AuthService } from './auth.service.js';
+import { PrismaService } from '@/prisma/prisma.service.js';
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
-import { EmailService } from '@/email/email.service';
+import { EmailService } from '@/email/email.service.js';
 
 // Mock bcrypt at module level for ESM compatibility
 vi.mock('bcrypt', () => ({

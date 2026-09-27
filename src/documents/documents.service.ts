@@ -1,9 +1,9 @@
-import { PrismaService } from '@/prisma/prisma.service';
+import { PrismaService } from '@/prisma/prisma.service.js';
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CreateDocumentDto } from './dto/create-document.dto';
-import { DocumentListQueryDto } from './dto/document-list-query.dto';
-import { UpdateDocumentDto } from './dto/update-document.dto';
+import { CreateDocumentDto } from './dto/create-document.dto.js';
+import { DocumentListQueryDto } from './dto/document-list-query.dto.js';
+import { UpdateDocumentDto } from './dto/update-document.dto.js';
 
 @Injectable()
 export class DocumentsService {
