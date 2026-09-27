@@ -1,17 +1,17 @@
 import { Body, Controller, ForbiddenException, Post, Get, UseGuards, Req, Res } from '@nestjs/common';
 import type { Request, Response } from 'express';
-import { AuthService } from './auth.service';
-import { RegisterDTO } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
-import { VerifyEmailDto } from './dto/verify-email.dto';
-import { ResendVerificationDto } from './dto/resend-verification.dto';
+import { AuthService } from './auth.service.js';
+import { RegisterDTO } from './dto/register.dto.js';
+import { LoginDto } from './dto/login.dto.js';
+import { VerifyEmailDto } from './dto/verify-email.dto.js';
+import { ResendVerificationDto } from './dto/resend-verification.dto.js';
 import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { ResetPasswordDto } from './dto/reset-password.dto';
-import { ForgotPasswordDTO } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto.js';
+import { ForgotPasswordDTO } from './dto/forgot-password.dto.js';
 import { ConfigService } from '@nestjs/config';
-import { JwtAuthGuard } from '@/common/strategies/jwt-auth.guard';
-import { CurrentUser } from '@/common/decorators/current-user.decorator';
-import type { JwtPayload } from '@/common/decorators/current-user.decorator';
+import { JwtAuthGuard } from '@/common/strategies/jwt-auth.guard.js';
+import { CurrentUser } from '@/common/decorators/current-user.decorator.js';
+import type { JwtPayload } from '@/common/decorators/current-user.decorator.js';
 
 const REFRESH_COOKIE_NAME = 'refreshToken';
 const CSRF_COOKIE_NAME = 'csrfToken';

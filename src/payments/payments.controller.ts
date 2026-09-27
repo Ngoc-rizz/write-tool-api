@@ -11,11 +11,11 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
-import { JwtAuthGuard } from '@/common/strategies/jwt-auth.guard';
-import { CurrentUser } from '@/common/decorators/current-user.decorator';
-import type { JwtPayload } from '@/common/decorators/current-user.decorator';
-import { PaymentsService } from './payments.service';
-import { CreatePaymentDto } from './dto/create-payment.dto';
+import { JwtAuthGuard } from '@/common/strategies/jwt-auth.guard.js';
+import { CurrentUser } from '@/common/decorators/current-user.decorator.js';
+import type { JwtPayload } from '@/common/decorators/current-user.decorator.js';
+import { PaymentsService } from './payments.service.js';
+import { CreatePaymentDto } from './dto/create-payment.dto.js';
 
 @ApiTags('Payments')
 @Controller('payments')

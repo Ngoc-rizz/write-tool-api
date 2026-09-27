@@ -1,9 +1,9 @@
 import { NestFactory, Reflector } from '@nestjs/core';
-import { AppModule, ObserveInstrument } from './app.module';
+import { AppModule, ObserveInstrument } from './app.module.js';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter';
-import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter.js'; 
+import { ResponseInterceptor } from './common/interceptors/response.interceptor.js';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 

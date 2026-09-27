@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Observable, map } from "rxjs";
-import { RESPONSE_MSG_KEY } from "../decorators/response-message.decorator";
+import { RESPONSE_MSG_KEY } from "../decorators/response-message.decorator.js";
 
 interface Response<T> {
     success: boolean;

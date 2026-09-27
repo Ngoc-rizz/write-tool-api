@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '@/common/strategies/jwt-auth.guard';
-import { CurrentUser } from '@/common/decorators/current-user.decorator';
-import type { JwtPayload } from '@/common/decorators/current-user.decorator';
-import { ChaptersService } from './chapters.service';
+import { JwtAuthGuard } from '@/common/strategies/jwt-auth.guard.js';
+import { CurrentUser } from '@/common/decorators/current-user.decorator.js';
+import type { JwtPayload } from '@/common/decorators/current-user.decorator.js';
+import { ChaptersService } from './chapters.service.js';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateChapterDto } from './dto/create-chapter.dto';
-import { UpdateChapterDto } from './dto/update-chapter.dto';
-import { UpdateChapterContentDto } from './dto/update-chapter-content.dto';
+import { CreateChapterDto } from './dto/create-chapter.dto.js';
+import { UpdateChapterDto } from './dto/update-chapter.dto.js';
+import { UpdateChapterContentDto } from './dto/update-chapter-content.dto.js';
 
 @Controller('chapters')
 @ApiTags('Chapters')

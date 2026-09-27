@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { PrismaModule } from '@/prisma/prisma.module';
-import { EmailModule } from '@/email/email.module';
-import { JwtStrategy } from '@/common/strategies/jwt.strategy';
+import { AuthController } from './auth.controller.js';
+import { AuthService } from './auth.service.js';
+import { PrismaModule } from '@/prisma/prisma.module.js';
+import { EmailModule } from '@/email/email.module.js';
+import { JwtStrategy } from '@/common/strategies/jwt.strategy.js';
 
 @Module({
   imports: [

@@ -1,6 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, Req, UseGuards } from "@nestjs/common";
-import { PaymentsService } from "./payments.service";
-import { WebhookSignatureGuard } from "./guards/webhook-signature.guard";
+import { PaymentsService } from "./payments.service.js";
+import { WebhookSignatureGuard } from "./guards/webhook-signature.guard.js";
 import { SkipThrottle } from "@nestjs/throttler";
 
 @Controller('webhooks')

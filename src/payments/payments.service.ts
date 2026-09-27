@@ -6,16 +6,16 @@ import {
     Logger,
     NotFoundException,
 } from '@nestjs/common';
-import { CreatePaymentDto } from './dto/create-payment.dto';
-import { PrismaService } from '@/prisma/prisma.service';
-import type { IPaymentProvider } from './provider/IPaymentProvider';
+import { CreatePaymentDto } from './dto/create-payment.dto.js';
+import { PrismaService } from '@/prisma/prisma.service.js';
+import type { IPaymentProvider } from './provider/IPaymentProvider.js';
 
 import {
     generateTransferContent,
     PAYMENT_EXPIRATION_MS,
     PlanType,
-} from './domain/payment.types';
-import { assertTransition, InvalidTransitionError, PaymentActor, PaymentStatus } from './domain/payment-state-machine';
+} from './domain/payment.types.js';
+import { assertTransition, InvalidTransitionError, PaymentActor, PaymentStatus } from './domain/payment-state-machine.js';
 
 const PLAN_PRICES: Record<PlanType, number> = {
     FREE: 0,

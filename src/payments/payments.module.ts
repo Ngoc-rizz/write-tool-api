@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
-import { PaymentsService } from './payments.service';
-import { PaymentsController } from './payments.controller';
-import { SePayController } from './sepay.controller';
-import { SepayProvider } from './provider/sepay.provider';
-import { PaymentScheduler } from './payment.scheduler';
-import { AuthModule } from '@/auth/auth.module';
+import { PaymentsService } from './payments.service.js';
+import { PaymentsController } from './payments.controller.js';
+import { SePayController } from './sepay.controller.js';
+import { SepayProvider } from './provider/sepay.provider.js';
+import { PaymentScheduler } from './payment.scheduler.js';
+import { AuthModule } from '@/auth/auth.module.js';
 
 // ─── Payments Module ────────────────────────────────────────────────
 // Wires all payment components together.
