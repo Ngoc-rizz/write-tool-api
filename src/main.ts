@@ -2,7 +2,7 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule, ObserveInstrument } from './app.module.js';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter.js'; 
+import { HttpExceptionFilter } from './common/filters/http-exception.filter.js';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor.js';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
@@ -13,7 +13,7 @@ async function bootstrap() {
     rawBody: true,
   })
 
-  app.use(helmet())
+  app.use(helmet());
   app.use(cookieParser())
 
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
