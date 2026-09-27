@@ -7,7 +7,7 @@ import {
     NotFoundException,
 } from '@nestjs/common';
 import { CreatePaymentDto } from './dto/create-payment.dto.js';
-import { PrismaService } from '@/prisma/prisma.service.js';
+import { PrismaService } from '../prisma/prisma.service.js';
 import type { IPaymentProvider } from './provider/IPaymentProvider.js';
 
 import {

@@ -1,4 +1,4 @@
-import { PrismaService } from '@/prisma/prisma.service.js';
+import { PrismaService } from '../prisma/prisma.service.js';
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CreateDocumentDto } from './dto/create-document.dto.js';
