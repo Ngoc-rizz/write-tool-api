@@ -22,7 +22,7 @@ async function bootstrap() {
   console.log('FRONTEND_URL:', frontendUrl);
 
   app.enableCors({
-    origin: frontendUrl,
+    origin: 'https://write-tool-ui.vercel.app',
     credentials: true,
   })
 
