@@ -5,7 +5,7 @@ import { PrismaService } from '../prisma/prisma.service.js';
 import { RegisterDTO } from './dto/register.dto.js';
 import { LoginDto } from './dto/login.dto.js';
 import { VerifyEmailDto } from './dto/verify-email.dto.js';
-import { EmailService } from '@/email/email.service.js';
+import { EmailService } from '../email/email.service.js';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 

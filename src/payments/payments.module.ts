@@ -5,7 +5,7 @@ import { PaymentsController } from './payments.controller.js';
 import { SePayController } from './sepay.controller.js';
 import { SepayProvider } from './provider/sepay.provider.js';
 import { PaymentScheduler } from './payment.scheduler.js';
-import { AuthModule } from '@/auth/auth.module.js';
+import { AuthModule } from '../auth/auth.module.js';
 
 // ─── Payments Module ────────────────────────────────────────────────
 // Wires all payment components together.

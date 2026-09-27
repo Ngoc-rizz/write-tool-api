@@ -9,9 +9,9 @@ import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ResetPasswordDto } from './dto/reset-password.dto.js';
 import { ForgotPasswordDTO } from './dto/forgot-password.dto.js';
 import { ConfigService } from '@nestjs/config';
-import { JwtAuthGuard } from '@/common/strategies/jwt-auth.guard.js';
-import { CurrentUser } from '@/common/decorators/current-user.decorator.js';
-import type { JwtPayload } from '@/common/decorators/current-user.decorator.js';
+import { JwtAuthGuard } from '../common/strategies/jwt-auth.guard.js';
+import { CurrentUser } from '../common/decorators/current-user.decorator.js';
+import type { JwtPayload } from '../common/decorators/current-user.decorator.js';
 
 const REFRESH_COOKIE_NAME = 'refreshToken';
 const CSRF_COOKIE_NAME = 'csrfToken';

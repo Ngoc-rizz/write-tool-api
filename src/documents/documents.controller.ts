@@ -10,9 +10,9 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '@/common/strategies/jwt-auth.guard.js';
-import { CurrentUser } from '@/common/decorators/current-user.decorator.js';
-import type { JwtPayload } from '@/common/decorators/current-user.decorator.js';
+import { JwtAuthGuard } from '../common/strategies/jwt-auth.guard.js';
+import { CurrentUser } from '../common/decorators/current-user.decorator.js';
+import type { JwtPayload } from '../common/decorators/current-user.decorator.js';
 import { DocumentsService } from './documents.service.js';
 import { CreateDocumentDto } from './dto/create-document.dto.js';
 import { UpdateDocumentDto } from './dto/update-document.dto.js';
