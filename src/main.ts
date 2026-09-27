@@ -5,7 +5,9 @@ import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter.js';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor.js';
 import cookieParser from 'cookie-parser';
-import helmet from 'helmet';
+import helmetImport from 'helmet';
+
+const helmet = helmetImport as unknown as () => any;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
