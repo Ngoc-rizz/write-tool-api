@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { createHash, randomBytes, randomInt } from 'crypto';
 import * as bcrypt from 'bcrypt';
-import { PrismaService } from '@/prisma/prisma.service.js';
+import { PrismaService } from '../prisma/prisma.service.js';
 import { RegisterDTO } from './dto/register.dto.js';
 import { LoginDto } from './dto/login.dto.js';
 import { VerifyEmailDto } from './dto/verify-email.dto.js';
