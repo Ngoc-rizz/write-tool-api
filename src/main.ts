@@ -21,7 +21,7 @@ async function bootstrap() {
   const frontendUrl = process.env.FRONTEND_URL;
 
   app.enableCors({
-    origin: frontendUrl, 
+    origin: 'https://write-tool-ui.vercel.app',
     credentials: true,
   })
 
