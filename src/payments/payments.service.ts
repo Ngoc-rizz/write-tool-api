@@ -44,7 +44,7 @@ export class PaymentsService {
         const existingPending = await this.prisma.payment.findFirst({
             where: { userId, planType: dto.planType, status: { in: ['PENDING', 'PROCESSING'] } }
         })
-        
+
         if (existingPending) return existingPending;
 
         const amount = PLAN_PRICES[dto.planType];
@@ -119,7 +119,7 @@ export class PaymentsService {
             ...(toStatus === 'SUCCESS' && payment.planType === 'PRO' ? [
                 this.prisma.user.update({
                     where: { id: payment.userId },
-                    data: { role: 'PRO' },
+                    data: { planType: 'PRO' },
                 }),
             ] : []),
 
@@ -290,7 +290,7 @@ export class PaymentsService {
         if (payment.status === 'PENDING' && payment.expiredAt && new Date() > payment.expiredAt) {
             return this.expirePayment(payment.id, 'cron');
         }
-        
+
         return payment;
     }
 
