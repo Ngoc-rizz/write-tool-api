@@ -44,9 +44,8 @@ export class PaymentsService {
         const existingPending = await this.prisma.payment.findFirst({
             where: { userId, planType: dto.planType, status: { in: ['PENDING', 'PROCESSING'] } }
         })
-        if (existingPending) {
-            throw new ConflictException(`Duplicate pending payment for user`)
-        }
+        
+        if (existingPending) return existingPending;
 
         const amount = PLAN_PRICES[dto.planType];
         const transferContent = generateTransferContent(userId);
@@ -116,6 +115,14 @@ export class PaymentsService {
                     ...(toStatus === 'SUCCESS' ? { paidAt: new Date() } : {}),
                 },
             }),
+
+            ...(toStatus === 'SUCCESS' && payment.planType === 'PRO' ? [
+                this.prisma.user.update({
+                    where: { id: payment.userId },
+                    data: { role: 'PRO' },
+                }),
+            ] : []),
+
             this.prisma.paymentEvent.create({
                 data: { paymentId, fromStatus, toStatus, reason, actor, metadata: metadata ?? undefined },
             }),
@@ -279,6 +286,11 @@ export class PaymentsService {
             include: { events: { orderBy: { createdAt: 'desc' } } },
         });
         if (!payment) throw new NotFoundException(`Payment ${id} not found`);
+
+        if (payment.status === 'PENDING' && payment.expiredAt && new Date() > payment.expiredAt) {
+            return this.expirePayment(payment.id, 'cron');
+        }
+        
         return payment;
     }
 

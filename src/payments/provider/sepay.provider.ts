@@ -24,11 +24,23 @@ export class SepayProvider implements IPaymentProvider {
         rawBody: Buffer,
     ): Promise<WebhookVerificationResult> {
         const secret = this.config.getOrThrow<string>('SEPAY_WEBHOOK_SECRET');
+        const mode = this.config.get<string>('SEPAY_AUTH_MODE', 'apikey');
+
+        if (mode === 'apikey') {
+            const a = Buffer.from(headers['authorization'] ?? '');
+            const b = Buffer.from(`Apikey ${secret}`);
+            return a.length === b.length && crypto.timingSafeEqual(a, b)
+                ? { valid: true }
+                : { valid: false, reason: 'Invalid API key' };
+        }
+
+
         const signature = headers['x-sepay-signature'];
         const timestamp = headers['x-sepay-timestamp'];
         if (!signature || !timestamp) {
             return { valid: false, reason: 'Missing signature or timestamp header' };
         }
+
 
         // Bước 1+2: ghép chuỗi {timestamp}.{raw_body}
         const payload = `${timestamp}.${rawBody.toString('utf-8')}`;

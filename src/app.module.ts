@@ -19,7 +19,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     ConfigModule.forRoot({ isGlobal: true }),
     ThrottlerModule.forRoot([{
       ttl: 60000,
-      limit: 10,
+      limit: 60,
     }]),
     ObserveModule.forRoot({
       appKey: 'YOUR_APP_KEY',
