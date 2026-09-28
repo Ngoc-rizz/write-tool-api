@@ -4,18 +4,16 @@ import {
     Post,
     Body,
     Param,
-    Query,
-    Delete,
-    HttpCode,
-    HttpStatus,
     UseGuards,
+    ForbiddenException,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../common/strategies/jwt-auth.guard.js';
 import { CurrentUser } from '../common/decorators/current-user.decorator.js';
 import type { JwtPayload } from '../common/decorators/current-user.decorator.js';
 import { PaymentsService } from './payments.service.js';
 import { CreatePaymentDto } from './dto/create-payment.dto.js';
+import { SkipThrottle } from '@nestjs/throttler';
 
 @ApiTags('Payments')
 @Controller('payments')
@@ -31,6 +29,12 @@ export class PaymentsController {
     create(@CurrentUser() user: JwtPayload, @Body() createPaymentDto: CreatePaymentDto) {
         return this.paymentsService.createPayment(user.userId, createPaymentDto);
     }
-
-
+    @Get(':id')
+    @SkipThrottle()
+    @UseGuards(JwtAuthGuard)
+    async findOne(@CurrentUser() user: JwtPayload, @Param('id') id: string) {
+        const payment = await this.paymentsService.findById(id);
+        if (payment.userId !== user.userId) throw new ForbiddenException();
+        return payment;
+    }
 }
