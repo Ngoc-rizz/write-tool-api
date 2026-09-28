@@ -1,6 +1,6 @@
 export const PAYMENT_EXPIRATION_MS = 15 * 60 * 1000;
 
-export const TRANSFER_CONTENT_PREFIX = 'IV_';
+export const TRANSFER_CONTENT_PREFIX = 'IV';
 
 export type Currency = 'VND';
 
